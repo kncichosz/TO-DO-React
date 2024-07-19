@@ -1,13 +1,58 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*{
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body{
+  background-color: #778899;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: center
+}
+
+main{
+  display: flex;
+  justify-content: center
+}
+
+.task{
+  padding: 5px;
+  margin: 5px;
+}
+
+.finishedTask{
+  color: #404040;
+  text-decoration: line-through;
+}
+
+.task:hover{
+  color: #404040;
+  cursor: pointer;
+}
+
+header h1 {
+  padding: 5px;
+  margin: 15px;
+  font-size: 64px;
+  border-bottom: solid 2px #2c333a;
+}
+
+ul{
+  list-style-type: none;
+}
+
+.taskList li{
+  display: flex;
+  align-items: center;
+  margin: 5px;
+  padding: 5px;
+}
+
+.taskList button{
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  cursor: pointer;
 }
