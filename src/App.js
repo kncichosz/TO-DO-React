@@ -8,8 +8,10 @@ function ToDoForm(props) {
   }
 
   function handleSubmit() {
-    props.onSubmit(draft);
-    setDraft("");
+    if (draft !== "") {
+      props.onSubmit(draft);
+      setDraft("");
+    }
   }
 
   return (
