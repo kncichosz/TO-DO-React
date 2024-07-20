@@ -1,38 +1,79 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+
+function ToDoForm(props) {
+  return (
+    <div>
+      <input type="text" onChange={props.onChange} value={props.draft} />
+      <button onClick={props.onSubmit}>Add</button>
+    </div>
+  );
+}
 
 function TasksList() {
-
-
   //false means that the task is not completed yet
-  const initialTasks = [
-    ["Task 1", false],
-    ["Task 2", false],
-    ["Task 3", false],
-    ["Task 4", false],
-    ["Task 5", false]
-  ];
+  const initialTasks = {
+    title: "My To-Do List",
+    tasks: [
+      { name: "Task 1", completed: false },
+      { name: "Task 2", completed: false },
+      { name: "Task 3", completed: false },
+      { name: "Task 4", completed: false },
+      { name: "Task 5", completed: false },
+    ],
+  };
 
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasksData, setTasksData] = useState(initialTasks);
+  const [draft, setDraft] = useState("");
 
-  function deleteTask(indexToDelete){
-    setTasks(prevTasks => prevTasks.filter((task, index) => index !== indexToDelete));
+  function deleteTask(indexToDelete) {
+    setTasksData((prevTasksData) => ({
+      ...prevTasksData,
+      tasks: prevTasksData.tasks.filter((_, index) => index !== indexToDelete),
+    }));
   }
 
-  function createTask(){ 
+  function updateDraft(event) {
+    setDraft(event.target.value);
   }
 
-  function finishTask(indexOfCompletedTask){
-    setTasks(prevTasks =>  prevTasks.map((task, index) =>  index === indexOfCompletedTask ? [task[0], !task[1]] : task ));
+  function createTask() {
+    const newTask = { name: draft, completed: false };
+    setTasksData((prevTasksData) => ({
+      ...prevTasksData,
+      tasks: [...prevTasksData.tasks, newTask],
+    }));
+    setDraft("");
+  }
+
+  function finishTask(indexOfCompletedTask) {
+    setTasksData((prevTasksData) => ({
+      ...prevTasksData,
+      tasks: prevTasksData.tasks.map((task, index) =>
+        index === indexOfCompletedTask
+          ? { ...task, completed: !task.completed }
+          : task
+      ),
+    }));
   }
 
   return (
-    <div className='taskList'>
+    <div className="taskList">
+      <h2>{tasksData.title}</h2>
       <ul>
-        {tasks.map( (task, index) => <li key={index} >
-            <div className={`task ${task[1] ? "finishedTask" : "" }`} onClick={() => finishTask(index)} > {task[0]}</div>
-            <button onClick={() => deleteTask(index)}> x </button> 
-          </li>)}
+        {tasksData.tasks.map((task, index) => (
+          <li key={index}>
+            <div
+              className={`task ${task[1] ? "finishedTask" : ""}`}
+              onClick={() => finishTask(index)}
+            >
+              {" "}
+              {task.name}
+            </div>
+            <button onClick={() => deleteTask(index)}> &times; </button>
+          </li>
+        ))}
       </ul>
+      <ToDoForm onSubmit={createTask} onChange={updateDraft} draft={draft} />
     </div>
   );
 }
@@ -41,8 +82,8 @@ function Header() {
   return (
     <header>
       <h1>
-        <span style={{color: "#ccc"}}>TO-DO </span>
-        <span style={{color: "#424d57"}}>LIST</span>
+        <span style={{ color: "#ccc" }}>TO-DO </span>
+        <span style={{ color: "#424d57" }}>LIST</span>
       </h1>
     </header>
   );
