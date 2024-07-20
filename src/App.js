@@ -1,10 +1,21 @@
 import React, { useState } from "react";
 
 function ToDoForm(props) {
+  const [draft, setDraft] = useState("");
+
+  function updateDraft(event) {
+    setDraft(event.target.value);
+  }
+
+  function handleSubmit() {
+    props.onSubmit(draft);
+    setDraft(""); // Clear the draft after submitting
+  }
+
   return (
     <div>
-      <input type="text" onChange={props.onChange} value={props.draft} />
-      <button onClick={props.onSubmit}>Add</button>
+      <input type="text" onChange={updateDraft} value={draft} />
+      <button onClick={handleSubmit}>Add</button>
     </div>
   );
 }
@@ -23,7 +34,6 @@ function TasksList() {
   };
 
   const [tasksData, setTasksData] = useState(initialTasks);
-  const [draft, setDraft] = useState("");
 
   function deleteTask(indexToDelete) {
     setTasksData((prevTasksData) => ({
@@ -32,17 +42,12 @@ function TasksList() {
     }));
   }
 
-  function updateDraft(event) {
-    setDraft(event.target.value);
-  }
-
-  function createTask() {
+  function createTask(draft) {
     const newTask = { name: draft, completed: false };
     setTasksData((prevTasksData) => ({
       ...prevTasksData,
       tasks: [...prevTasksData.tasks, newTask],
     }));
-    setDraft("");
   }
 
   function finishTask(indexOfCompletedTask) {
@@ -63,7 +68,7 @@ function TasksList() {
         {tasksData.tasks.map((task, index) => (
           <li key={index}>
             <div
-              className={`task ${task[1] ? "finishedTask" : ""}`}
+              className={`task ${task.completed ? "finishedTask" : ""}`}
               onClick={() => finishTask(index)}
             >
               {" "}
@@ -73,7 +78,7 @@ function TasksList() {
           </li>
         ))}
       </ul>
-      <ToDoForm onSubmit={createTask} onChange={updateDraft} draft={draft} />
+      <ToDoForm onSubmit={createTask} />
     </div>
   );
 }
