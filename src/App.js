@@ -9,7 +9,7 @@ function ToDoForm(props) {
 
   function handleSubmit() {
     props.onSubmit(draft);
-    setDraft(""); // Clear the draft after submitting
+    setDraft("");
   }
 
   return (
