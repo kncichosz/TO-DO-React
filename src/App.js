@@ -22,10 +22,10 @@ function ToDoForm(props) {
   );
 }
 
-function TasksList() {
+function TasksList(props) {
   //false means that the task is not completed yet
   const initialTasks = {
-    title: "My To-Do List",
+    title: props.title,
     tasks: [
       { name: "Task 1", completed: false },
       { name: "Task 2", completed: false },
@@ -97,6 +97,8 @@ function Header() {
 }
 
 function Main() {
+  const initialLists = ["My To-Do List", "Test"];
+
   return (
     <main>
       <TasksList />
