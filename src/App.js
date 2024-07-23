@@ -97,9 +97,20 @@ function Header() {
 function Main() {
   const initialLists = ["My To-Do List", "Test"];
 
+  const [titles, setTitles] = useState(initialLists);
+
+  function createList(draft) {
+    const newList = draft;
+    setTitles((prevTitles) => [...prevTitles, newList]);
+  }
+
   return (
     <main>
-      <TasksList />
+      <h2>Add new list</h2>
+      <ToDoForm onSubmit={createList} />
+      {titles.map((list, index) => (
+        <TasksList key={index} title={list} />
+      ))}
     </main>
   );
 }
